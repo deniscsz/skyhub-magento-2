@@ -16,7 +16,7 @@
             </service>
             <catalog>
                 <immediately_integrate_product_after_sensitive_change>1</immediately_integrate_product_after_sensitive_change>
-                <product_visibility>4</product_visibility>
+                <product_visibility>2,3,4</product_visibility>
             </catalog>
             <sales_order_status>
                 <new_order_status>pending</new_order_status>
@@ -24,37 +24,71 @@
                 <delivered_order_status>customer_delivered</delivered_order_status>
                 <shipment_exception_order_status>shipment_exception</shipment_exception_order_status>
             </sales_order_status>
+
             <!-- CATALOG PRODUCT ATTRIBUTES -->
-            <cron_catalog_product_attributes>
+            <cron_catalog_product_attribute>
                 <enabled>1</enabled>
                 <queue_create>3 2 */1 * *</queue_create>
                 <queue_execute>11 2 */1 * *</queue_execute>
-            </cron_catalog_product_attributes>
+            </cron_catalog_product_attribute>
+
             <!-- CATALOG PRODUCTS -->
-            <cron_catalog_products>
+            <cron_catalog_product>
                 <enabled>1</enabled>
                 <queue_create>*/13 * * * *</queue_create>
                 <queue_create_limit>500</queue_create_limit>
                 <queue_execute>*/30 * * * *</queue_execute>
                 <queue_execute_limit>500</queue_execute_limit>
-            </cron_catalog_products>
+            </cron_catalog_product>
+
             <!-- CATALOG CATEGORIES -->
-            <cron_catalog_categories>
+            <cron_catalog_category>
                 <enabled>1</enabled>
                 <queue_create>0 3 */1 * *</queue_create>
                 <queue_execute>10 3 */1 * *</queue_execute>
-            </cron_catalog_categories>
+            </cron_catalog_category>
+
             <!-- SALES ORDER STATUS QUEUE -->
             <cron_sales_order_status>
                 <enabled>1</enabled>
                 <queue_create>*/10 * * * *</queue_create>
+                <queue_create_limit>50</queue_create_limit>
                 <queue_execute>*/10 * * * *</queue_execute>
+                <queue_execute_limit>50</queue_execute_limit>
             </cron_sales_order_status>
+
             <!-- SALES ORDER QUEUE -->
-            <cron_sales_order_queue>
+            <cron_sales_order_import>
                 <enabled>1</enabled>
                 <expression>*/10 * * * *</expression>
-            </cron_sales_order_queue>
+                <limit>50</limit>
+                <use_default_increment_id>1</use_default_increment_id>
+            </cron_sales_order_import>
         </bittools_skyhub>
+
+        <payment>
+            <bseller_skyhub_standard>
+                <active>1</active>
+                <model>BitTools\SkyHub\Model\Payment\Method\Standard</model>
+                <order_status>pending</order_status>
+                <title>BitTools SkyHub Standard</title>
+                <allowspecific>0</allowspecific>
+                <sort_order>900</sort_order>
+            </bseller_skyhub_standard>
+        </payment>
+
+        <carriers>
+            <bittools_skyhub_standard>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>BitTools\SkyHub\Model\Shipping\Carrier\Standard</model>
+                <name>bittools_skyhub_standard</name>
+                <price>0.00</price>
+                <title>BitTools SkyHub Standard</title>
+                <type>I</type>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <handling_type>F</handling_type>
+            </bittools_skyhub_standard>
+        </carriers>
     </default>
 </config>

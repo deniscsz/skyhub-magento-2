@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="bittools_skyhub_order_import_exception">
+        <observer name="bittools_skyhub_log_order_details" instance="BitTools\SkyHub\Observer\Sales\Order\LogOrderDetailsOnImportException" />
+    </event>
+
+    <!-- CATALOG EVENTS -->
+    <event name="catalog_product_save_after">
+        <observer name="bittools_skyhub_integrate_catalog_product" instance="BitTools\SkyHub\Observer\Catalog\Product\DeleteProduct"/>
+    </event>
+    <!--
+    The product cannot be deleted from SkyHub when it's already related to any order.
+    <event name="catalog_product_delete_after">
+        <observer name="bittools_skyhub_delete_catalog_product" instance="BitTools\SkyHub\Observer\Catalog\Product\IntegrateProduct"/>
+    </event>
+    -->
+    <event name="catalog_product_delete_before">
+        <observer name="bittools_skyhub_integrate_catalog_product" instance="BitTools\SkyHub\Observer\Catalog\Product\DisableProduct"/>
+    </event>
+    <event name="catalog_entity_attribute_save_after">
+        <observer name="bittools_skyhub_integrate_catalog_product_attribute" instance="BitTools\SkyHub\Observer\Catalog\Product\Attribute\IntegrateProductAttribute"/>
+    </event>
+    <event name="catalog_category_save_after">
+        <observer name="bittools_skyhub_integrate_catalog_category" instance="BitTools\SkyHub\Observer\Catalog\Category\IntegrateCategory"/>
+    </event>
+    <event name="catalog_category_delete_after">
+        <observer name="bittools_skyhub_delete_catalog_category" instance="BitTools\SkyHub\Observer\Catalog\Category\DeleteCategory"/>
+    </event>
+
+    <!-- SALES EVENTS -->
+    <event name="order_cancel_after">
+        <observer name="bittools_skyhub_order_cancel_after" instance="BitTools\SkyHub\Observer\Sales\Order\CancelOrderAfter" />
+        <observer name="bittools_skyhub_reintegrate_order_products" instance="BitTools\SkyHub\Observer\Sales\Order\ReIntegrateOrderProducts" />
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="bittools_skyhub_process_complete_status_order" instance="BitTools\SkyHub\Observer\Sales\Order\Status\ProcessCompleteStatusOrder"/>
+    </event>
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="bittools_skyhub_reintegrate_order_products" instance="BitTools\SkyHub\Observer\Sales\Order\ReIntegrateOrderProducts" />
+    </event>
+    <event name="sales_order_shipment_track_save_after">
+        <observer name="bittools_skyhub_integrate_shipment_track" instance="BitTools\SkyHub\Observer\Sales\Order\Shipment\IntegrateOrderShipmentTracking"/>
+    </event>
+    <event name="sales_order_creditmemo_refund">
+        <observer name="bittools_skyhub_cancel_order_after_refund" instance="BitTools\SkyHub\Observer\Sales\Order\Creditmemo\CancelOrderAfterRefund"/>
+    </event>
+
+    <!-- INVOICE KEY -->
+    <event name="bittools_skyhub_order_relation_save_after">
+        <observer name="bittools_skyhub_integrate_invoice_key" instance="BitTools\SkyHub\Observer\Sales\Order\Invoice\IntegrateInvoiceKey"/>
+    </event>
+</config>
